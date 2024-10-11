@@ -10,21 +10,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const client_1 = require("@trpc/client");
-//     👆 **type-only** import
-// Pass AppRouter as generic here. 👇 This lets the `trpc` object know
-// what procedures are available on the server and their input/output types.
 const trpc = (0, client_1.createTRPCProxyClient)({
     links: [
         (0, client_1.httpBatchLink)({
             url: 'http://localhost:3000',
+            headers() {
+                return __awaiter(this, void 0, void 0, function* () {
+                    return {
+                        Authoriztion: "Bearer 1"
+                    };
+                });
+            }
         }),
     ],
 });
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
-        let response = yield trpc.signUp.mutate({
-            email: "random@mail.com",
-            password: "123321",
+        let response = yield trpc.createTodo.mutate({
+            title: "trpc headers",
+            description: "header---header----head",
         });
         console.log(response);
     });

@@ -4,14 +4,19 @@ const trpc = createTRPCProxyClient<AppRouter>({
   links: [
     httpBatchLink({
       url: 'http://localhost:3000',
+      async headers(){
+        return{
+          Authoriztion:"Bearer 1"
+        }
+      }
     }),
   ],
 });
 
 async function main() {
-  let response = await trpc.signUp.mutate({
-    email: "random@mail.com",
-    password: "123321",
+  let response = await trpc.createTodo.mutate({
+    title: "trpc headers",
+    description: "header---header----head",
   })
   console.log(response)
 }
